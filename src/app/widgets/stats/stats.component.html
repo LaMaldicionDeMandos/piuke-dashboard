@@ -1,0 +1,14 @@
+<div class="row stats">
+    <div class="col-sm-6 col-md-3" tooltip="{{tooltipText}}" placement="{{tooltipPlace}}">
+        <div [class]="['stats__item bg-'+statColor]">
+            <div class="stats__info">
+                <h2> {{ title }} </h2>
+                <small>{{ desc }}</small>
+            </div>
+            <div class="stats__chart">
+                <x-chartist [type]="chart.type" [data]="chart.data" [options]="chart.options"> </x-chartist>
+            </div>
+
+        </div>
+    </div>
+</div>

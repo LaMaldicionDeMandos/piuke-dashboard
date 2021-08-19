@@ -1,0 +1,167 @@
+<header class="content__title">
+    <div class="actions">
+        <button type="button" class="btn btn-lg btn-primary" (click)="new()">+ Nuevo</button>
+    </div>
+</header>
+<br/>
+<div class="card" *ngIf="newResource">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input class="form-control" placeholder="Tirantes 2X4 pino 4m" [(ngModel)]="newResource.name">
+                    <i class="form-group__bar"></i>
+                </div>
+                <div class="form-group">
+                    <label>Unidad de medida</label>
+                    <input class="form-control" placeholder="Metro" [(ngModel)]="newResource.measure_unit">
+                    <i class="form-group__bar"></i>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Código</label>
+                    <input class="form-control" placeholder="MCH1" [(ngModel)]="newResource.code">
+                    <i class="form-group__bar"></i>
+                </div>
+                <div class="form-group">
+                    <label>Tamaño de compra</label>
+                    <input type="number" class="form-control" placeholder="4" [(ngModel)]="newResource.package_size">
+                    <i class="form-group__bar"></i>
+                </div>
+                <div class="form-group">
+                    <label>Precio de compra</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Precio" [(ngModel)]="newResource.price">
+                        <div class="input-group-append">
+                            <span class="input-group-text">,00</span>
+                        </div>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Comentario</label>
+                    <textarea autosize class="form-control" placeholder="Comentario..." [(ngModel)]="newResource.comment"></textarea>
+                    <i class="form-group__bar"></i>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="actions">
+                    <button type="button" class="btn btn-success btn-block" (click)="add()">Agregar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card" *ngIf="editResource">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input class="form-control" placeholder="Tirantes 2X4 pino 4m" [(ngModel)]="editResource.name">
+                    <i class="form-group__bar"></i>
+                </div>
+                <div class="form-group">
+                    <label>Tamaño de compra</label>
+                    <input type="number" class="form-control" placeholder="4" [(ngModel)]="editResource.package_size">
+                    <i class="form-group__bar"></i>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Código</label>
+                    <input class="form-control" placeholder="MCH1" [(ngModel)]="editResource.code">
+                    <i class="form-group__bar"></i>
+                </div>
+                <div class="form-group">
+                    <label>Unidad de medida</label>
+                    <input class="form-control" placeholder="Metro" [(ngModel)]="editResource.measure_unit">
+                    <i class="form-group__bar"></i>
+                </div>
+                <div class="form-group">
+                    <label>Precio de compra</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Precio" [(ngModel)]="editResource.price">
+                        <div class="input-group-append">
+                            <span class="input-group-text">,00</span>
+                        </div>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Comentario</label>
+                    <textarea autosize class="form-control" placeholder="Comentario..." [(ngModel)]="editResource.comment"></textarea>
+                    <i class="form-group__bar"></i>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="actions">
+                    <button type="button" class="btn btn-success btn-block" (click)="makeEdition()">Listo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row title">
+    <div class="col-md-1">
+        <p>Código</p>
+    </div>
+    <div class="col-md-2">
+        <p>Nombre</p>
+    </div>
+    <div class="col-md-2">
+        <p>Unidad de medida</p>
+    </div>
+    <div class="col-md-2">
+        <p>Tamaño de compra</p>
+    </div>
+    <div class="col-md-2">
+        <p>Precio</p>
+    </div>
+    <div class="col-md-2">
+        <p>Precio Unitario</p>
+    </div>
+    <div class="col-md-1">
+        <p>Cambiar</p>
+    </div>
+</div>
+<div class="card item" *ngFor="let resource of resources">
+    <div class="card-body item">
+        <div class="row">
+            <div class="col-md-1">
+                <p class="item item-name">{{resource.code}}</p>
+            </div>
+            <div class="col-md-2">
+                <p class="item item-name">{{resource.name}}</p>
+                <p class="desc">{{resource.comment}}</p>
+            </div>
+            <div class="col-md-2">
+                <p class="item">{{resource.measure_unit}}</p>
+            </div>
+            <div class="col-md-2">
+                <p class="item">{{resource.package_size}}</p>
+            </div>
+            <div class="col-md-2">
+                <p class="item">{{resource.price | currency}}</p>
+            </div>
+            <div class="col-md-2">
+                <p class="item">{{(resource.price / resource.package_size ) | currency}}</p>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-light btn--icon"><i class="zmdi zmdi-edit" (click)="edit(resource)"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

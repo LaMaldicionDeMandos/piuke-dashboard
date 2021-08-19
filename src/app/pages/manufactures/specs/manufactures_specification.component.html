@@ -1,0 +1,93 @@
+<header class="content__title">
+    <div class="actions">
+        <button type="button" class="btn btn-lg btn-primary" (click)="new()">+ Nuevo</button>
+    </div>
+</header>
+<br/>
+<div class="card" *ngIf="newManufacture">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Código</label>
+                    <input class="form-control" placeholder="MCH1" [(ngModel)]="newManufacture.code">
+                    <i class="form-group__bar"></i>
+                </div>
+                <div class="form-group">
+                    <label>Materia Prima</label>
+                    <div class="dropdown" dropdown>
+                        <button dropdownToggle type="button" class="btn btn-link dropdown-toggle" aria-controls="dropdown-basic">
+                            {{selectedResource}}
+                        </button>
+                        <ul *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                            <li *ngFor="let r of resources" role="menuitem"><a class="dropdown-item" (click)="selectResource(r)">{{r.name}}</a></li>
+                        </ul>
+                    </div>
+                    <i class="form-group__bar"></i>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input class="form-control" placeholder="Liston 77x4x3.5" [(ngModel)]="newManufacture.name">
+                    <i class="form-group__bar"></i>
+                </div>
+                <div class="form-group">
+                    <label>Cantidad producida por recurso</label>
+                    <input type="number" class="form-control" placeholder="20" [(ngModel)]="newManufacture.count">
+                    <i class="form-group__bar"></i>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="actions">
+                    <button [disabled]="!enableNewManufacture" type="button" class="btn btn-success btn-block" (click)="add()">Agregar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row title">
+    <div class="col-md-1">
+        <p>Código</p>
+    </div>
+    <div class="col-md-2">
+        <p>Nombre</p>
+    </div>
+    <div class="col-md-2">
+        <p>Materia prima</p>
+    </div>
+    <div class="col-md-2">
+        <p>Cantidad producida</p>
+    </div>
+    <div class="col-md-2">
+        <p>Costo</p>
+    </div>
+    <div class="col-md-1">
+        <p>Cambiar</p>
+    </div>
+</div>
+<div class="card item" *ngFor="let manufacture of manufactures">
+    <div class="card-body item">
+        <div class="row">
+            <div class="col-md-1">
+                <p class="item item-name">{{manufacture.code}}</p>
+            </div>
+            <div class="col-md-2">
+                <p class="item item-name">{{manufacture.name}}</p>
+            </div>
+            <div class="col-md-2">
+                <p class="item">{{manufacture.resource.name}}</p>
+            </div>
+            <div class="col-md-2">
+                <p class="item">{{manufacture.count}}</p>
+            </div>
+            <div class="col-md-2">
+                <p class="item">{{manufacture.cost | currency}}</p>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-light btn--icon"><i class="zmdi zmdi-edit" (click)="edit(manufacture)"></i></button>
+                <button class="btn btn-light btn--icon"><i class="zmdi zmdi-delete" (click)="edit(manufacture)"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

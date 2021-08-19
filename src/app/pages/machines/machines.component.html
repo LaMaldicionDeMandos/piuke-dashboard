@@ -1,0 +1,131 @@
+<div class="content__inner">
+    <header class="content__title">
+        <h1 >Maquinas y consumos</h1>
+        <small>Las maquinas que tenemos y sus consumos.</small>
+    </header>
+
+    <div>
+        <app-widget-stats statColor="blue" title="Costo {{cost | currency}}/kWh" desc="Costo por kWatt por hora"
+        tooltipText="Click para cambiar el costo" tooltipPlace="right" (click)="electricalModal.show()"></app-widget-stats>
+    </div>
+
+    <header class="content__title">
+        <div class="actions">
+            <button type="button" class="btn btn-lg btn-primary" (click)="new()">+ Nueva</button>
+        </div>
+    </header>
+    <br/>
+    <div class="card" *ngIf="newMachine">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input class="form-control" placeholder="Sierra sin fin" [(ngModel)]="newMachine.name">
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Consumo en Watts</label>
+                        <input type="tel" class="form-control" placeholder="1800" [(ngModel)]="newMachine.consumption">
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="actions">
+                        <button type="button" class="btn btn-success btn-block" (click)="add()">Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card" *ngIf="editMachine">
+        <div class="card-body">
+            <div class="card-title">{{editMachine.name}}</div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Consumo en Watts</label>
+                        <input type="tel" class="form-control" placeholder="1800" [(ngModel)]="editMachine.consumption">
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="actions">
+                        <button type="button" class="btn btn-success btn-block" (click)="makeEdition()">Listo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Costo por hora</h4>
+        </div>
+
+        <div class="row quick-stats">
+            <div *ngFor="let machine of machines" class="col-sm-6 col-md-4">
+                <div [class]="['quick-stats__item bg-blue']">
+                    <div class="quick-stats__info">
+                        <div style="display: flex; justify-content: space-between">
+                            <h2>{{ machine.name }}</h2> <h1 align="right"> {{machine.consumption * cost * 0.001 | currency}} </h1>
+                        </div>
+                    </div>
+                    <div class="actions actions--inverse">
+                        <div class="actions__item" dropdown>
+                            <i dropdownToggle class="zmdi zmdi-more-vert"></i>
+                            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                                <a class="dropdown-item" (click)="edit(machine)"><i style="margin-right: 0.5rem" class="zmdi zmdi-edit"></i>Modificar</a>
+                                <a class="dropdown-item" (click)="remove(machine)"><i style="margin-right: 0.5rem" class="zmdi zmdi-delete"></i>Borrar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" bsModal #electricalModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Costo Energetico</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>$ / kw/h</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="number" class="form-control" placeholder="Precio" [(ngModel)]="cost">
+                            <i class="form-group__bar"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" (click)="changeEnergyCost(cost)">Listo</button>
+                    <button type="button" class="btn btn-link" (click)="electricalModal.hide()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" bsModal #deleteMachineModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Borrando {{deleteMachine?.name}}</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Seguro que queres borrar {{deleteMachine?.name}}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" (click)="makeMachineDeletion()">Seguro</button>
+                    <button type="button" class="btn btn-link" (click)="deleteMachineModal.hide()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

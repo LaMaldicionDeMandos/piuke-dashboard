@@ -1,0 +1,149 @@
+<div class="content__inner">
+    <header class="content__title">
+        <h1 >Personas</h1>
+        <small>Personas y sueldos.</small>
+        <div class="actions">
+            <button type="button" class="btn btn-lg btn-primary" (click)="new()">+ Nueva</button>
+        </div>
+    </header>
+    <br/>
+    <div class="card" *ngIf="newPerson">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input class="form-control" placeholder="Bili" [(ngModel)]="newPerson.name">
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Salario en horas</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Precio" [(ngModel)]="newPerson.salary">
+                            <div class="input-group-append">
+                                <span class="input-group-text">,00</span>
+                            </div>
+                            <i class="form-group__bar"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Periodo de pago</label>
+                        <div class="dropdown" dropdown>
+                            <button dropdownToggle type="button" class="btn btn-link dropdown-toggle" aria-controls="dropdown-basic">
+                                {{selectedPeriod}}
+                            </button>
+                            <ul *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                                <li *ngFor="let r of periods" role="menuitem"><a class="dropdown-item" (click)="selectPeriod(r)">{{r.name}}</a></li>
+                            </ul>
+                        </div>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="actions">
+                        <button [disabled]="!newPerson?.name ||  !newPerson?.salary || !newPerson?.period" type="button" class="btn btn-success btn-block" (click)="add()">Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card" *ngIf="editPerson">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input class="form-control" placeholder="Bili" [(ngModel)]="editPerson.name">
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Salario en horas</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Precio" [(ngModel)]="editPerson.salary">
+                            <div class="input-group-append">
+                                <span class="input-group-text">,00</span>
+                            </div>
+                            <i class="form-group__bar"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Periodo de pago</label>
+                        <div class="dropdown" dropdown>
+                            <button dropdownToggle type="button" class="btn btn-link dropdown-toggle" aria-controls="dropdown-basic">
+                                {{selectedPeriod}}
+                            </button>
+                            <ul *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                                <li *ngFor="let r of periods" role="menuitem"><a class="dropdown-item" (click)="updatePeriod(r)">{{r.name}}</a></li>
+                            </ul>
+                        </div>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="actions">
+                        <button [disabled]="!editPerson?.name ||  !editPerson?.salary || !editPerson?.period" type="button" class="btn btn-success btn-block" (click)="makeEdition()">Listo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Personas</h4>
+    </div>
+
+    <div class="row quick-stats">
+        <div *ngFor="let person of people" class="col-sm-6 col-md-4">
+            <div [class]="['quick-stats__item bg-blue']">
+                <div class="quick-stats__info">
+                    <div style="display: flex; justify-content: space-between">
+                        <h2>{{ person.name }}</h2> <h1 align="right"> {{salary(person) | currency}} </h1>
+                    </div>
+                    <small>{{ person.period.name }}</small>
+                </div>
+                <div class="actions actions--inverse">
+                    <div class="actions__item" dropdown>
+                        <i dropdownToggle class="zmdi zmdi-more-vert"></i>
+                        <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+                            <a class="dropdown-item" (click)="edit(person)"><i style="margin-right: 0.5rem" class="zmdi zmdi-edit"></i>Modificar</a>
+                            <a class="dropdown-item" (click)="remove(person)"><i style="margin-right: 0.5rem" class="zmdi zmdi-delete"></i>Borrar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" bsModal #deletePersonModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Borrando {{deletePerson?.name}}</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Seguro que queres borrar a {{deletePerson?.name}}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" (click)="makePersonDeletion()">Seguro</button>
+                    <button type="button" class="btn btn-link" (click)="deletePersonModal.hide()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

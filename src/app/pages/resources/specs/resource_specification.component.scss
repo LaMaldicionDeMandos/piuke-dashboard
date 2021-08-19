@@ -1,0 +1,28 @@
+.row.title {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.card.item {
+  margin-bottom: 0.8rem;
+}
+
+.card-body.item {
+  padding: 1.2rem;
+}
+
+p.item {
+  font-size: 15px;
+}
+
+p.item-name {
+  margin-bottom: 0;
+}
+
+p.desc {
+  color: #9c9c9c;
+  font-size: 0.9rem;
+  margin-bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

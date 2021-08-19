@@ -1,0 +1,72 @@
+<header class="content__title">
+    <div class="actions">
+        <button type="button" class="btn btn-lg btn-primary" (click)="new()">+ Nuevo</button>
+    </div>
+</header>
+<br/>
+<div class="card" *ngIf="newStock">
+    <div class="card-body">
+
+        <div class="row" *ngFor="let item of items">
+            <div class="col-md-2">
+                <p class="item item-name">{{item.name}}</p>
+            </div>
+            <div class="col-md-2">
+                <span class="item item-name">{{item.stock}} </span>
+                <span class="desc">{{item.measure_unit}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5" [hidden]="validateStock">
+                <div class="form-group">
+                    <label>Materia Prima</label>
+                    <div class="dropdown" dropdown>
+                        <button dropdownToggle type="button" class="btn btn-link dropdown-toggle" aria-controls="dropdown-basic">
+                            {{selectedResource}}
+                        </button>
+                        <ul *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                            <li *ngFor="let r of newStockResources" role="menuitem"><a class="dropdown-item" (click)="selectResource(r)">{{r.name}}</a></li>
+                        </ul>
+                    </div>
+                    <i class="form-group__bar"></i>
+                </div>
+            </div>
+            <div class="col-md-1"  [hidden]="validateStock"></div>
+            <div class="col-md-5"  [hidden]="validateStock">
+                <div class="form-group">
+                    <label>Stock</label>
+                    <input type="number" class="form-control" placeholder="{{newStock.measure_unit}}" [(ngModel)]="newStock.stock">
+                    <i class="form-group__bar"></i>
+                </div>
+            </div>
+            <div class="col-md-1" [hidden]="validateStock">
+                <button class="btn btn-success btn--icon" (click)="add()"><i class="zmdi zmdi-check"></i></button>
+            </div>
+            <div class="col-md-12">
+                <div class="actions">
+                    <button type="button" class="btn btn-success btn-block" (click)="finish()" [disabled]="!validateStock">Listo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Stock Actual</h4>
+        <h6 class="card-subtitle">Fecha: {{currentStock.createdAt | date: 'dd/MM/yyyy hh:mm a':'-0300'}}</h6>
+    </div>
+
+    <div class="row quick-stats">
+        <div *ngFor="let stat of currentStock?.list" class="col-sm-6 col-md-3">
+            <div [class]="['quick-stats__item bg-blue']">
+                <div class="quick-stats__info">
+                    <div style="display: flex; justify-content: space-between">
+                        <h2>{{ stat.name }}</h2> <h1 align="right"> {{stat.stock}} </h1>
+                    </div>
+                    <small>{{ stat.measure_unit }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
